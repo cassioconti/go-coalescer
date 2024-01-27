@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+
+title "go-coalescer"
+
+Person_Ext(u1, "User 1")
+Person_Ext(u2, "User 2")
+Person_Ext(u3, "User 3")
+System_Ext(c1, "App A")
+System_Ext(c2, "App B")
+System_Boundary(cluster, "My cluster") {
+    Container(svc, "My Service", "Go")
+    ContainerDb(db, "My Database", "")
+}
+
+Rel(u1, svc, "GET /resources")
+Rel(u2, svc, "GET /resources")
+Rel(u3, svc, "GET /resources")
+Rel(c1, svc, "GET /resources")
+Rel(c2, svc, "GET /resources")
+Rel(svc, db, "GET /resources", "Only once")
+
+SHOW_LEGEND()
+@enduml
